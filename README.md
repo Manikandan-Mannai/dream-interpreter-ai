@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+import { useState } from "react";
+import "./App.css";
+import axios from "axios";
+import ReactMarkdown from "react-markdown";
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+function App() {
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [generatingAnswer, setGeneratingAnswer] = useState(false);
 
-## Available Scripts
+  async function generateAnswer(e) {
+    setGeneratingAnswer(true);
+    e.preventDefault();
+    setAnswer("Loading your answer... \n It might take upto 10 seconds");
+    try {
+      const response = await axios({
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBcRPh0_b9l2BLCbj1wntGZU2zDUC9PJbY`,
+        method: "post",
+        data: {
+          contents: [{ parts: [{ text: question }] }],
+        },
+      });
 
-In the project directory, you can run:
+      setAnswer(
+        response["data"]["candidates"][0]["content"]["parts"][0]["text"]
+      );
+    } catch (error) {
+      console.log(error);
+      setAnswer("Sorry - Something went wrong. Please try again!");
+    }
 
-### `npm start`
+    setGeneratingAnswer(false);
+  }
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  return (
+    <>
+      <div className="bg-white h-screen p-3">
+        <form
+          onSubmit={generateAnswer}
+          className="w-full md:w-2/3 m-auto text-center rounded bg-gray-50 py-2"
+        >
+          <a href="https://github.com/Vishesh-Pandey/chat-ai" target="_blank">
+            <h1 className="text-3xl text-center">Chat AI</h1>
+          </a>
+          <textarea
+            required
+            className="border rounded w-11/12 my-2 min-h-fit p-3"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="Ask anything"
+          ></textarea>
+          <button
+            type="submit"
+            className="bg-blue-300 p-3 rounded-md hover:bg-blue-400 transition-all duration-300"
+            disabled={generatingAnswer}
+          >
+            Generate answer
+          </button>
+        </form>
+        <div className="w-full md:w-2/3 m-auto text-center rounded bg-gray-50 my-1">
+          <ReactMarkdown className="p-3">{answer}</ReactMarkdown>
+        </div>
+      </div>
+    </>
+  );
+}
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+export default App;
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './Login';
+import Interpreter from './Interpreter';
+import Navbar from '../component/Navbar';
+// import { useNavigate } from 'react-router-dom';
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const HomePage = () => {
+    const isAuthenticated = localStorage.getItem("name") !== null;
+    // const navigate = useNavigate(); // Add this line
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    return (
+        <Router>
+            {isAuthenticated && <Navbar />}
+            <Routes>
+                <Route path="/" element={isAuthenticated ? <Interpreter /> : <Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route
+                    path="/interpreter"
+                    element={isAuthenticated ? <Interpreter /> : <Navigate to="/login" replace />} // Updated this line
+                />
+            </Routes>
+        </Router>
+    );
+};
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export default HomePage;
