@@ -1,62 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import styled from 'styled-components';
-import DreamsCard from './DreamsCard';
+import DreamsCard from '../component/DreamsCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import CSVData from '../dreams.csv';
-
-const DreamsContainer = styled.div`
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-`;
-
-const Header = styled.h1`
-    font-size: 24px;
-    margin-bottom: 20px;
-`;
-
-const SearchBar = styled.div`
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-
-    input[type="text"] {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        margin-right: 10px;
-    }
-
-    button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-`;
-
-const DreamsList = styled.div`
-    display: grid;
-    grid-gap: 20px;
-`;
-
-const LoadButton = styled.button`
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-`;
 
 const DreamsData = () => {
     const [dreams, setDreams] = useState([]);
@@ -116,3 +64,55 @@ const DreamsData = () => {
 };
 
 export default DreamsData;
+
+const DreamsContainer = styled.div`
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+`;
+
+const Header = styled.h1`
+    font-size: 24px;
+    margin-bottom: 20px;
+`;
+
+const SearchBar = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+`;
+
+const DreamsList = styled.div`
+    display: grid;
+    grid-gap: 20px;
+`;
+
+const LoadButton = styled.button`
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+`;

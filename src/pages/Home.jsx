@@ -7,18 +7,12 @@ import DreamsData from './DreamData';
 
 const HomePage = () => {
     const isAuthenticated = localStorage.getItem("name") !== null;
-
-
+    
 
     useEffect(() => {
-        // Check for authentication whenever the component is re-rendered
         const checkAuth = () => {
             if (localStorage.getItem("name") === null) {
-                // If not authenticated, redirect to login page
-                return <Navigate to="/login" replace />;
-            } else {
-                // Refresh the page after successful login
-                
+               
             }
         };
         checkAuth();
@@ -27,12 +21,10 @@ const HomePage = () => {
     return (
         <Router>
             <Routes>
-                {/* Redirect to /interpreter if authenticated */}
                 <Route
                     path="/login"
                     element={isAuthenticated ? <Navigate to="/interpreter" replace /> : <Login />}
                 />
-                {/* Display InterpreterWithNavbar component if authenticated */}
                 <Route
                     path="/interpreter"
                     element={isAuthenticated ? <InterpreterWithNavbar /> : <Navigate to="/login" replace />}
@@ -41,7 +33,6 @@ const HomePage = () => {
                     path="/dreams"
                     element={isAuthenticated ? <DreamDataWithNavbar /> : <Navigate to="/login" replace />}
                 />
-                {/* Redirect to /interpreter if authenticated, otherwise redirect to /login */}
                 <Route
                     path="/*"
                     element={isAuthenticated ? <InterpreterWithNavbar /> : <Navigate to="/login" replace />}
@@ -71,6 +62,7 @@ const DreamDataWithNavbar = () => {
 
 export default HomePage;
 
+// CODE WITHOUT COOKIE AUTHENTICATION
 
 // import React from 'react';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';

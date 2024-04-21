@@ -10,7 +10,6 @@ const Login = () => {
 
     useEffect(() => {
         if (loggedIn) {
-            console.log("logged");
             window.location.reload();
             navigate('/interpreter', { replace: true });
         }
@@ -21,9 +20,8 @@ const Login = () => {
 
             await signInWithGoogle();
             Cookies.set('authenticated', 'true', { expires: 1 });
-            console.log("logged");
-            setLoggedIn(true); // Update the loggedIn state after successful login
-            navigate('/interpreter', { state: { loggedIn: true } }); // Pass the loggedIn state to the home page
+            setLoggedIn(true); 
+            navigate('/interpreter', { state: { loggedIn: true } });
         } catch (error) {
             console.error('Error signing in with Google:', error);
         }

@@ -2,13 +2,14 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBlrZykQZw7E2Ip8L84qfLxrubRyK8teNw",
-    authDomain: "dream-interpreter-b7df4.firebaseapp.com",
-    projectId: "dream-interpreter-b7df4",
-    storageBucket: "dream-interpreter-b7df4.appspot.com",
-    messagingSenderId: "387093512097",
-    appId: "1:387093512097:web:5a71ae0758eda523ee15e0"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
+
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
